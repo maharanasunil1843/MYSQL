@@ -1,0 +1,26 @@
+import pymysql
+import pandas as pd
+
+# Set up a connection to the MySQL database
+conn = pymysql.connect(
+    host='localhost',
+    user='username',
+    password='password',
+    db='database_name'
+)
+
+# Create a cursor object to execute SQL queries
+cursor = conn.cursor()
+
+# Load your data into a Pandas DataFrame
+data = pd.read_csv('your_data_file.csv')
+
+# Loop through the DataFrame and execute an INSERT statement for each row
+for index, row in data.iterrows():
+    sql = "INSERT INTO table_name (column1, column2, column3) VALUES (%s, %s, %s)"
+    cursor.execute(sql, (row['column1'], row['column2'], row['column3']))
+    conn.commit()
+
+# Close the cursor and connection
+cursor.close()
+conn.close()
